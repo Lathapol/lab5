@@ -1,6 +1,6 @@
 # CPE 334 Sprint 1 Group Work
 
-Sprint 1 establishes the product baseline and releases one tested workflow through the UI, backend, and database. Confirm the assigned theme and Sprint 1 example in the course group specification before choosing domain features or the stack.
+Sprint 1 establishes the product baseline and releases one tested workflow through the UI, backend, and database. The assigned theme is Workflow and Approval System. See the [proposed Sprint 1 scope](docs/sprints/sprint-1/proposed-scope.md) and check it against the course group specification before finalizing the feature contracts.
 
 ## Engineering documents
 
