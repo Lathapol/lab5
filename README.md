@@ -51,3 +51,13 @@ and password. Send the issued cookie to GET /api/auth/me or to
 POST /api/auth/logout with an empty JSON object. To run the integration test,
 set TEST_DATABASE_URL to a separate PostgreSQL database with the migration
 applied, then run npm test.
+
+## Run the web interface
+
+With the API listening on port 3000, run npm run dev:web in a second terminal
+and open the URL printed by Vite. Sign in using one of the seeded accounts.
+
+For the browser test, migrate and seed the separate test database with the
+same SEED_PASSWORD you pass to the test runner. Keep ports 3000 and 4173 free.
+Run npx playwright install chromium, npm run build, and npm run test:e2e.
+The test runner starts both servers and removes its own sample request.
