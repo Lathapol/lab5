@@ -1,0 +1,22 @@
+{
+  "name": "workflow-approval-system",
+  "version": "1.0.0",
+  "description": "CPE 334 Sprint 1 Workflow and Approval System",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lathapol/sprint-group-work.git"
+  },
+  "type": "commonjs",
+  "prisma": {
+    "seed": "node prisma/seed.cjs"
+  },
+  "private": true,
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.3"
+  }
+}
