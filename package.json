@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "npm run build && node --test test/auth.test.cjs"
+    "test": "npm run build && node --test test/*.test.cjs"
   },
   "repository": {
     "type": "git",
