@@ -53,3 +53,15 @@ test('login, current user, session expiry and logout against PostgreSQL', async 
     assert.equal(await db.session.findUnique({ where: { id: expired.id } }), null);
   }
 });
+
+test('health reports database readiness without exposing database errors', async (t) => {
+  assert.ok(process.env.TEST_DATABASE_URL, 'Set TEST_DATABASE_URL to a migrated test database.');
+  const db = new PrismaClient({ datasourceUrl: process.env.TEST_DATABASE_URL });
+  t.after(() => db.$disconnect());
+  await request(createApp(db, 8, 10)).get('/api/health').expect(200, { data: { status: 'ok' } });
+
+  const unavailable = { $queryRaw: async () => { throw new Error('private connection details'); } };
+  await request(createApp(unavailable, 8, 10)).get('/api/health').expect(503, {
+    error: { code: 'SERVICE_UNAVAILABLE', message: 'The service is temporarily unavailable.' },
+  });
+});
