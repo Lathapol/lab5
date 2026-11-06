@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  REQUESTER
+  REVIEWER
+}
+
+enum Category {
+  FUNDING
+  PURCHASE
+  TRAVEL
+  REIMBURSEMENT
+}
+
+enum RequestState {
+  PENDING
+  IN_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           Int              @id @default(autoincrement())
+  username     String           @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime         @default(now())
+  sessions     Session[]
+  submitted    Request[]        @relation("Requester")
+  claimed      Request[]        @relation("Reviewer")
+  history      RequestHistory[]
+}
+
+model Session {
+  id        String   @id
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model Request {
+  id             Int              @id @default(autoincrement())
+  title          String
+  category       Category
+  amount         Decimal          @db.Decimal(12, 2)
+  justification  String
+  state          RequestState     @default(PENDING)
+  requesterId    Int
+  requester      User             @relation("Requester", fields: [requesterId], references: [id])
+  reviewerId     Int?
+  reviewer       User?            @relation("Reviewer", fields: [reviewerId], references: [id])
+  decisionReason String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  decidedAt      DateTime?
+  history        RequestHistory[]
+
+  @@index([requesterId])
+  @@index([reviewerId])
+  @@index([state])
+}
+
+model RequestHistory {
+  id        Int           @id @default(autoincrement())
+  requestId Int
+  request   Request       @relation(fields: [requestId], references: [id])
+  actorId   Int
+  actor     User          @relation(fields: [actorId], references: [id])
+  fromState RequestState?
+  toState   RequestState
+  reason    String?
+  createdAt DateTime      @default(now())
+
+  @@index([requestId])
+}
