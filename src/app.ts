@@ -4,6 +4,8 @@ import { compare, hash } from 'bcryptjs';
 import cookieParser from 'cookie-parser';
 import express, { ErrorRequestHandler, RequestHandler, Response } from 'express';
 
+import { requestRoutes } from './requests';
+
 const cookieName = 'session';
 const publicUser = { id: true, username: true, role: true } as const;
 
@@ -103,6 +105,8 @@ export function createApp(db: PrismaClient, ttlHours = 8, bcryptRounds = 12) {
     await db.session.deleteMany({ where: { id: res.locals.sessionId } });
     res.clearCookie(cookieName, cookieOptions).json({ data: { loggedOut: true } });
   });
+
+  app.use('/api/requests', requestRoutes(db, authenticate, requireJson, requireRole('REQUESTER'), requireRole('REVIEWER')));
 
   const handleError: ErrorRequestHandler = (error, _req, res, next) => {
     if (res.headersSent) {
