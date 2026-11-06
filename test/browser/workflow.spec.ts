@@ -42,8 +42,9 @@ test('requester submits and retrieves a reviewer rejection', async ({ page }) =>
 
     await login('requester1');
     await page.getByRole('link', { name: title }).click();
-    await expect(page.getByText('Rejected', { exact: true })).toBeVisible();
-    await expect(page.getByText('Budget limit', { exact: true })).toBeVisible();
+    const detail = page.locator('section').filter({ has: page.getByRole('heading', { name: title }) });
+    await expect(detail.getByText('Rejected', { exact: true })).toBeVisible();
+    await expect(detail.getByText('Budget limit', { exact: true })).toBeVisible();
   } finally {
     try {
       await db.$transaction([
