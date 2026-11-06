@@ -73,6 +73,15 @@ export function createApp(db: PrismaClient, ttlHours = 8, bcryptRounds = 12) {
     fail(res, 401, 'UNAUTHENTICATED', 'Log in to continue.');
   };
 
+  app.get('/api/health', async (_req, res) => {
+    try {
+      await db.$queryRaw`SELECT 1`;
+      res.json({ data: { status: 'ok' } });
+    } catch {
+      fail(res, 503, 'SERVICE_UNAVAILABLE', 'The service is temporarily unavailable.');
+    }
+  });
+
   app.post('/api/auth/login', requireJson, async (req, res) => {
     const { username, password } = req.body ?? {};
     if (typeof username !== 'string' || !username.trim() || username.length > 255 ||
