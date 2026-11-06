@@ -34,7 +34,7 @@ npx prisma db seed
 ```
 
 The seed creates two Requesters (`requester1`, `requester2`) and two Reviewers
-(`reviewer1`, `reviewer2`) using the configured synthetic password. Use a
+(`reviewer1`, `reviewer2`) using the configured synthetic password. It also adds a synthetic request in each Sprint 1 state with corresponding history. Re-running it leaves those requests and their decisions intact. Use a
 disposable local database for demo data. Keep your `.env` out of Git.
 
 ## Run the authentication API
