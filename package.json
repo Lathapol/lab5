@@ -2,7 +2,11 @@
   "name": "workflow-approval-system",
   "version": "1.0.0",
   "description": "CPE 334 Sprint 1 Workflow and Approval System",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "npm run build && node --test test/auth.test.cjs"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Lathapol/sprint-group-work.git"
@@ -14,9 +18,17 @@
   "private": true,
   "dependencies": {
     "@prisma/client": "^6.19.3",
-    "bcryptjs": "^3.0.3"
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0"
   },
   "devDependencies": {
-    "prisma": "^6.19.3"
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.19.2",
+    "prisma": "^6.19.3",
+    "supertest": "^7.3.1",
+    "typescript": "^5.9.3"
   }
 }
